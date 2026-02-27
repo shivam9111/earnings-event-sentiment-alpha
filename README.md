@@ -1,6 +1,6 @@
 # Earnings Event Sentiment & Risk Analysis
 
-Event-based sentiment analysis of S&P 500 earnings announcements using a finance-tuned DeBERTa transformer model, testing the impact of sentiment on next-day abnormal returns and short-term risk dynamics.
+Event-based sentiment analysis of S&P 500 earnings announcements using transformer models, testing the impact of sentiment on next-day abnormal returns and short-term risk dynamics.
 
 ---
 
@@ -8,52 +8,55 @@ Event-based sentiment analysis of S&P 500 earnings announcements using a finance
 
 This project investigates whether earnings announcement sentiment contains predictive information about:
 
-- Next-day abnormal returns  
-- Post-announcement volatility  
-- Downside risk exposure  
+- Next-day abnormal returns (Fama-French 6-factor adjusted)
+- Post-announcement realised volatility
+- Downside risk exposure
 
-The study focuses on US equities (S&P 500 constituents) and constructs an event-based empirical pipeline combining NLP and asset pricing techniques.
+The framework combines NLP with asset pricing and panel econometrics.
 
 ---
 
 ## Methodology
 
-### 1. Event Window Construction
-- Identify earnings announcement dates.
-- Define event window (t=0 announcement day, t+1 return horizon).
+### Event Study Design
+- Universe: S&P 500 constituents
+- Estimation window: 252 trading days
+- Event window: t+1 abnormal return
+- Risk window: 5-day realised volatility
 
-### 2. Sentiment Extraction
-- Apply finance-tuned DeBERTa transformer model.
-- Aggregate sentiment scores across headlines/transcripts.
-- Construct continuous sentiment measure.
+### Asset Pricing Model
+- Fama-French 5 Factors + Momentum (daily)
+- Rolling estimation for firm-specific betas
+- Abnormal return = excess return − expected return
 
-### 3. Abnormal Return Estimation
-- Market-adjusted returns or CAPM-based abnormal returns.
-- Cross-sectional analysis of sentiment vs abnormal returns.
+### Risk Metrics
+- Forward 5-day realised volatility
+- Downside semivariance
 
-### 4. Risk Analysis
-- Realised volatility post-event.
-- Downside semivariance.
-- Conditional return dispersion.
+### Econometric Specification
+- Firm fixed-effects panel regression
+- Clustered standard errors (by firm)
 
 ---
 
 ## Architecture
 
 - Modular pipeline (`src/pipeline.py`)
-- Transformer-based NLP inference
-- Financial econometrics module
-- Event-study framework
+- Automated data ingestion (prices, factors, earnings)
+- Rolling factor model estimation
+- Event-level panel construction
+- Panel regression with clustered inference
 
 ---
 
-## Expected Outputs
+## Current Status
 
-- Event-level sentiment scores  
-- Abnormal return estimates  
-- Risk metric panel dataset  
-- Summary regression tables  
-- Visualisations of sentiment-return relationship  
+- End-to-end pipeline implemented
+- Abnormal return and risk modules operational
+- Panel regression functional
+- Synthetic sentiment currently used for testing
+
+Next step: integrate finance-tuned transformer model for real earnings sentiment extraction.
 
 ---
 
